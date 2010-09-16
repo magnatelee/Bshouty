@@ -5,6 +5,8 @@ import Bshouty.Teacher
 import Bshouty.Model hiding (xor)
 import qualified Bshouty.Model as MO (xor)
 
+import System.IO.Unsafe
+
 fst3 :: (a, b, c) -> a
 fst3 (a, b, c) = a
 
@@ -36,8 +38,7 @@ cdnf teacher =
       where
         cdnf' :: Model -> [(Pred, [Model], Model)] -> Pred
         cdnf' u approx =
-          let h = foldr1 mkAnd $ map fst3 approx
-          in
+          let h = foldr1 mkAnd $ map fst3 approx in
            case queryEq teacher h of
              YES -> h
              NO u' ->
@@ -47,7 +48,7 @@ cdnf teacher =
                       let f = eval' $ substModel u' hi]
                in
                 if null $ filter (not . snd) i
-                then cdnf' u ((mkFalse, [], u):approx)
+                then cdnf' u ((mkFalse, [], u'):approx)
                 else 
                   let approx' =
                         map (\(hi, si, ai) -> (xor (mdnf si) ai, si, ai)) $

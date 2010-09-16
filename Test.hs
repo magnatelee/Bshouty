@@ -5,7 +5,14 @@ import Bshouty.Learner
 import Bshouty.Teacher
 import FemtoSat.Sat
 
-target = foldr1 mkOr [(mkNot . mkBVar) ("b" ++ show i) | i <- [1..8]]
+-- target = foldr1 mkOr [(mkNot . mkBVar) ("b" ++ show i) | i <- [1..2]]
+-- target = mkOr 
+--          (mkAnd ((mkNot . mkBVar) "A") (mkBVar "B")) $
+--          (mkAnd (mkBVar "A") ((mkNot . mkBVar) "B"))
+target = mkAnd 
+         (mkOr (mkBVar "A") (mkBVar "B"))
+         (mkOr ((mkNot . mkBVar) "A") ((mkNot . mkBVar) "B"))
+          
 
 isMember = eval' . flip substModel target
 isEq pred = 

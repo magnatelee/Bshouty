@@ -5,6 +5,7 @@ import Bshouty.Model (Model)
 
 data Answer = YES
             | NO Model
+              deriving (Show)
 
 data Teacher = Teacher {
   queryEq :: Pred -> Answer,
